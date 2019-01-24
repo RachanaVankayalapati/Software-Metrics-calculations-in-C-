@@ -1,0 +1,81 @@
+//Box plot code in C++
+#include<iostream>
+#include<math.h>
+
+using namespace std;
+
+int main()
+{
+int i,n,m,j;
+float q1=0,q2=0,q3=0;
+int count=0;
+float iqr=0, v=0;
+float outliers[10];
+float upper_fence=0, lower_fence=0;
+cout<<"\tBox-Plot Analysis\n";
+cout<<"enter the size of an array:";
+cin>n;
+int x[n],temp=0,a[n],b[n];
+cout<<"enter the array elements:\n";
+for(i=0;i<n-1;i++)
+{
+for(j=i+1;j<n;j++)
+{
+if(x[j]<x[i])
+{
+//swap elements
+temp=x[i];
+x[i]=x[j];
+x[j]=temp;
+}
+}
+}
+cout<<"\n inner quartile range q1 is:"<<q1;
+}
+else
+{
+q1=a[m/2];
+cout<<"\n inner quartile range is:"<<q1;
+}
+if(n%2==0)
+{
+q2=((x[n/2]+x[n/2-1])/2.0);
+cout<<"median (q2) is:"<<q2;
+}
+for(i=(m+1);i<n;i++)
+{
+b[i-(m+1)]=x[i];
+}
+if(m=n/2==0)
+{
+q3=((b[(m)/2)]+b[(m/2)+1]/2.0);
+cout<<"outer quartile(even) range q3 is:\n"<<q3;
+}
+else if(m%2!=0)
+{
+q3=b[(m)/2-1];
+cout<<"outer quartile(odd) range q3 is:"<<q3;
+}
+cout<<"IQR=Q3-Q1\n";
+iqr=(q3-q1);
+cout<<"Inner quartile range is:"<<iqr;
+v=(1.5*iqr);
+upper_fence=(q3-v);
+lower_fence=(q1+v);
+cout<<"upper tail value:"<<upper_fence;
+cout<<"lower tail value:"<<lower_fence;
+cout<<"outliers are\n";
+for(i=0;i<n;i++)
+{
+if(q3<x[i]||q>x[i])
+{
+outliers[i]=x[i];
+count=count+i;
+}
+}
+for(i=0;i<count;i++)
+{
+cout<<"\n"<<outliers[i];
+}
+return 0;
+}
