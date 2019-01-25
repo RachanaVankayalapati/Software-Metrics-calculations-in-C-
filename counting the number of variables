@@ -1,0 +1,91 @@
+//source code for counting the number of variables 
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<set>
+#include<vector>
+#include<math.h>
+using namespace std;
+string s;
+set<string>opr;
+vector<char>ope;
+int count_occurence(string t)
+{
+int occ=0;
+si
+while(nPos!=string::npos)
+{
+if(s[nPos+1]>='0'&& s[nPos+1]<='9')
+ope.push_back(s[nPos+1]);
+occ++;
+nPos=s.find(t,nPos+1);
+}
+return occ;
+}
+int main()
+{
+int p=0;
+ifstream cin("armstrong.c");
+getline(cin,s);
+getline(cin,s);
+while(cin.good())
+{
+if(s[0]=='i' && s[1]=='n' && s[2]=='t')
+{
+int temp=count_occurence(",");
+p+=temp+1;
+}
+if(s[0]=='f' && s[1]=='l' && s[2]=='o' && s[3]=='a' && s[4]=='t')
+{
+int temp=count_occurence(",");
+p+=temp+1;
+}
+if(s[0]=='d' && s[1]=='o' && s[2]=='u' && s[3]=='b' && s[4]=='l' && s[5]=='e')
+{
+int temp=count_occurence(",");
+p+=temp+1;
+}
+if(s[0]=='c' && s[1]=='h' && s[2]=='a' && s[3]=='r')
+{
+int temp=count_occurence(",");
+p+=temp+1;
+}
+if(s[0]=='b' && s[1]=='o' && s[2]=='o' && s[3]=='l')
+{
+int temp=count_occurence(",");
+p+=temp+1;
+}
+getline(cin,s);
+}
+cout<<"No of variables ="<<p-1<<endl;
+return 0;
+}
+
+
+//input:
+
+#include<stdio.h>
+ int main()
+{
+int n,r,sum=0,temp;
+char s,d,f,s;
+double ha,fh,ms;
+printf("enter the number=");
+scanf("%d",&n);
+temp=n;
+//rwst
+//rweyh
+while(n>0)
+{
+/*sfiksf*/
+/*fwuseht*/
+r=n%10;
+sum=sum+(r*r*r);
+n=n/10;
+}
+if(temp==sum)
+printf("armstrong number ");
+else
+printf("not armstrong number");
+return 0;
+}
