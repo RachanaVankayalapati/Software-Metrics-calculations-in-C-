@@ -1,0 +1,75 @@
+//function point count program
+
+//source code:
+usted Function Points:"<<UFP<<endl<<endl;
+cout<<"Enter DI Values: (0-5) for each technical complexity
+factor:\n\n\t0.Not present or no influence\n\t1.Insignificant
+influence\n\t2.Moderate Influence\n\t3.Average Influence\n\t4.Significant
+Influence\n\t5.Strong Influence Throughout\n\n";
+for(i=0;i<technicalLength;i++)
+{
+cout<<technicalComplexity[i]<<":";
+X:cin>>rate;
+if(rate>5)
+{
+cout<<"Sorry. Enter between (0-5)"<<endl;
+goto X;
+}
+else
+DI+=rate;
+}
+TCF=0.65+0.01*DI;
+cout<<endl<<"Technical Complex Factor(TCF):"<<TCF<<endl<<endl;
+FP=UFP*TCF;
+cout<<"Function Points:"<<FP;
+}
+
+
+//input:
+External(logical) Inputs
+Simple:3
+Average:8
+Complex:4
+External outputs
+Simple:1
+Average:4
+Complex:2
+External Enquiries
+Simple:6
+Average:5
+Complex:4
+External Interfaces
+Simple:3
+Average:1
+Complex:5
+Logical Internal Files
+Simple:2
+Average:1
+Complex:5
+Enter DI Values: (0-5) for each technical complexity factor:
+ 0.Not present or no influence
+ 1.Insignificant influence
+ 2.Moderate Influence
+ 3.Average Influence
+ 4.Significant Influence
+ 5.Strong Influence Throughout
+Data Communication:5
+Distributed Function:2
+Performace:1
+Heavily Used Configuration:4
+Transaction Rates:2
+On-line data entry:1
+Design for end-user efficiency:3
+On-line update:5
+Complex Processing:2
+Usable in other applications:0
+Installation ease:2
+Operational ease:4
+Multiple sites:2
+Facilitate Change:4
+
+
+//Output:
+Unadjusted Function Points:332
+Technical Complex Factor(TCF):1.02
+Function Points:338
