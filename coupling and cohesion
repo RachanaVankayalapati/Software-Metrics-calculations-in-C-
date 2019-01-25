@@ -1,0 +1,646 @@
+//data coupling:
+#include<iostream>
+using namespace std;
+class Component1
+{
+public:
+string method1(string cID)
+{
+			string str="emp";
+			int i,flag=0;
+			string courseId[]={"SWE101","SWE102","SWE506"};
+			string courseName[]={"OOPS","OOPS Lab","Software Metrics Lab"};
+			for(i=0;courseId[i]!="\0";i++)
+			{
+				if(courseId[i].find(cID)<courseId[i].length())
+				{
+					flag=1;
+					break;
+				}
+			}
+			if(flag==1)
+			return courseName[i];
+			else
+			return str;
+		}
+};
+class Component2:public Component1
+{
+	public:
+		void getCourseName()
+		{
+			string courseId;
+			cout<<"Enter CourseId:"<<endl;
+			cin>>courseId;
+			//cout<<method1(courseId);
+			if(method1(courseId).find("emp")<method1(courseId).length())
+			{
+				cout<<"No Details.";
+			}
+			else
+			cout<<"Course Name:"<<method1(courseId);
+		}
+};
+int main()
+{
+	Component2 obj;
+	obj.getCourseName();
+}
+
+//stamp coupling:
+
+#include<iostream>
+using namespace std;
+struct course
+{
+string courseId[10];
+string courseName[20];
+}c;
+class Component1
+{
+	public:
+		string method1(struct c)
+		{
+			return c.courseName[0];
+		}
+};
+class Component2:public Component1
+{
+	public:
+		void getCourseName()
+		{
+		cout<<"Details Retrieved:"<<method1(c);
+		}
+			
+};
+int main()
+{
+	c.courseId[0]="SWE504";
+	c.courseName[0]="SQR";
+	c.courseId[1]="SWE506";
+	c.courseName[1]="Software Metrics Lab";
+	Component2 obj;
+	obj.getCourseName();
+}
+
+//Control coupling:
+#include<iostream>
+using namespace std;
+class Component1
+{
+	public:
+		void Calculate(char op)
+		{
+			int a=10,b=5;
+			switch(op)
+			{
+				case '+':
+					cout<<"Addition:"<<a+b;
+					break;
+				case '-':
+					cout<<"Subtraction:"<<a-b;
+					break;
+				case '*':
+					cout<<"Multiplication:"<<a*b;
+					break;
+				case '/':
+					cout<<"Division:"<<a/b;
+					break;
+				default:
+					cout<<"No valid operator";
+			}
+		}
+};
+class Component2:public Component1
+{
+	public:
+	void method1()
+	{
+	char c;
+	cout<<"Enter an operator +,-,*,/:"<<endl;
+	cin>>c;
+	Calculate(c);
+	}
+};
+int main()
+{
+Component2 obj;
+obj.method1();
+}
+
+//external coupling:
+#include<iostream>
+#include<fstream>
+using namespace std;
+class Component1
+{
+	public:
+		void write(string str)
+		{
+			ofstream out("hello.txt");
+			cout<<endl<<"Component 1 is writing into the file..."<<endl;
+			out<<str;
+			cout<<endl<<"Component 1 has finished writing...";
+		}
+};
+class Component2:public Component1
+{
+	public:
+	void read()
+	{
+		string str;
+		cout<<"Enter a Text to be written into the file.."<<endl;
+		cin>>str;
+		cout<<endl<<"Component 2 is waiting for the Component 1 to finish writing..."<<endl;
+		write(str);
+		cout<<endl<<endl<<"Component 2 starts reading the content.."<<endl;
+		ifstream in("hello.txt");
+		while(in.good())
+		{
+		getline(in,str);
+		cout<<str<<endl;
+		}
+		cout<<endl<<"Component 2 has finished.";
+	}
+};
+int main()
+{
+Component2 obj;
+obj.read();
+}
+
+//common coupling:
+#include<iostream>
+using namespace std;
+int x=10;
+class Component1
+{
+	public:
+		void performAddition()
+		{
+			x=x+10;
+			cout<<"X value in component 1:"<<x<<endl;
+		}
+};
+class Component2:public Component1
+{
+	public:
+	void performMultiplication()
+	{
+		x=x*10;
+		cout<<"X value in component 2:"<<x<<endl;
+	}
+};
+int main()
+{
+Component2 obj;
+cout<<"Initial Value of X:"<<x<<endl;
+obj.performAddition();
+obj.performMultiplication();
+}
+
+//content coupling:
+#include<iostream>
+using namespace std;
+class Component1
+{
+	
+	public:
+		int x;
+		int setValue()
+		{
+			x=10;
+			cout<<"Initial Value of X:"<<x<<endl;
+		}
+};
+class Component2:public Component1
+{
+	public:
+	void modifyValue()
+	{
+		x=50;
+		cout<<"After Component 2 modifying the value:"<<x;
+	}
+};
+int main()
+{
+Component2 obj;
+obj.setValue();
+obj.modifyValue();
+}
+
+//no coupling
+#include<iostream>
+using namespace std;
+class Component1
+{
+	public:
+		void method1()
+		{
+			cout<<"Module 1 says:"<<endl<<endl;
+			int n=2,i,flag=1;
+			for(i=2;i<n;i++)
+			{
+				if(n%2==0)
+				{
+				flag=0;
+				break;
+				}
+			}
+			if(flag==1)
+			cout<<"2 is a prime number!"<<endl;
+			else
+			cout<<"2 is not a prime number!"<<endl;
+		}
+};
+class Component2
+{
+	public:
+	void method2()
+	{
+		int i;
+		cout<<endl<<endl<<"Module 2 says:"<<endl<<endl;
+		for(i=0;i<=10;i++)
+		{
+			if(i%2==0)
+			{
+				cout<<i<<" is an even number"<<endl;
+			}
+		}
+	}
+};
+int main()
+{
+Component1 obj1;
+Component2 obj2;
+obj1.method1();
+obj2.method2();}
+
+
+//COHESION
+
+//Coincidental cohesion
+
+#include<iostream>
+using namespace std;
+class Component
+{
+	public:
+		Component();
+};
+Component::Component()
+{
+			//Check Primarity
+			int n,i,flag=1;
+			cout<<"Enter a number:"<<endl;
+			cin>>n;
+			for(i=2;i<n;i++)
+			{
+				if(n%i==0)
+				{
+				flag=0;
+				break;
+				}
+			}
+			if(flag==1)
+			cout<<n<<" is a prime number!"<<endl;
+			else
+			cout<<n<<" is not a prime number!"<<endl;
+			//Student List Display
+			string studentNames[]={"SAKTHIVEL V","MANIKANDAN V","VIJAYALAKSHMI V","SARAVANAN V","BHUVANESHWARY V","S.Janaki","\0"};
+			int studentAge[]={20,28,23,18,15,78};
+			cout<<"\t\t============="<<endl<<"\t\tStudent List"<<endl<<"\t\t============="<<endl<<"\tName"<<"\t\t\t"<<"Age"<<endl;
+			for(i=0;studentNames[i]!="\0";i++)
+			{
+				cout<<"\t"<<studentNames[i]<<"\t\t"<<studentAge[i]<<endl;
+			}
+			//Check Email ID
+			flag=0;
+			string id;
+			cout<<endl<<"Check if an Email ID exists:"<<endl;
+			cin>>id;
+			string mailId[]={"sakthivel.v2011@vit.ac.in","MANIKANDAN.v@gmail.com","vijaya@yahoo.co.in","\0"};
+			for(i=0;mailId[i]!="\0";i++)
+			{
+				if(mailId[i].find(id)<mailId[i].length())
+				{
+					flag=1;
+					break;
+				}
+			}
+			if(flag==1)
+			{
+				cout<<"That id is present.";
+			}
+			else
+			cout<<"That id is not present.";
+			//Add two numbers
+			cout<<endl<<"Add two numbers"<<endl<<"Enter two values:"<<endl;
+			cin>>i;
+			cin>>flag;
+			cout<<"Sum is:"<<i+flag<<endl;
+}
+main()
+{
+	
+	Component obj;
+}
+
+//logical cohesion
+#include<iostream>
+#include<time.h>
+using namespace std;
+class Component
+{
+	public:
+		Component();
+};
+Component::Component()
+{
+			//Username verification
+			time_t t;
+			time(&t);
+			cout<<ctime(&t);
+			string user,pass;
+			int i,flag=0,pos;
+			string users[]={"11MSE0347","11MSE0321","11MSE0351","11MSE0047","\0"};
+			string password[]={"CVELUSAMY","abc","xyz","123"};
+			cout<<"Enter your username:"<<endl;
+			cin>>user;
+			for(i=0;users[i]!="\0";i++)
+			{
+				if(users[i].find(user)<users[i].length())
+				{
+					pos=i;
+					flag=1;
+					break;
+				}
+			}
+			if(flag==1)
+			{
+				flag=0;
+				cout<<"Enter your password:"<<endl;
+				X:cin>>pass;
+				if(pass==password[pos])
+				{
+					cout<<"You are a valid user..";
+				}
+				else
+				{
+				cout<<"Invalid password. Type again:"<<endl;
+				goto X;
+				}
+			}
+			else
+			{
+				cout<<"YOU ARE NOT AUTHORIZED!";
+			}
+}
+main()
+{
+	
+	Component obj;
+}
+
+
+//temporal cohesion:
+#include<iostream>
+#include<stdlib.h>
+#include<time.h>
+using namespace std;
+class Component
+{
+	public:
+		Component();
+};
+Component::Component()
+{
+	//Initialize two arrays
+	int a[10],b[10];
+	//Initialize several variables
+	int n1=0,n2=0,N1=0,N2=0,i=0,j=0,k=0,pos,l=0,contd,r,oplength,op2length,disOpLength;
+	double N=0,V=0,L=0,D=0,E=0,T=0,I=0;
+	//seed the random number generator
+	srand(time(NULL));		
+	//print  a greeting
+	cout<<"Hello all! All variables have been declared!.";
+}
+main()
+{
+	
+	Component obj;
+}
+
+//procedural cohesion
+#include<iostream>
+#include<fstream>
+using namespace std;
+class Component
+{
+	public:
+		Component();
+};
+Component::Component()
+{
+	//Write to a file
+	ofstream out("happy.txt");
+	string text;
+	cout<<"Enter what to write in the file.."<<endl;
+	cin>>text;
+	out<<text;
+	out.close();
+	//Read a file
+	 string linesread;
+    ifstream in("happy.txt");
+    if (in.is_open())
+    {
+        while(getline(in,linesread))
+        {
+            cout<<linesread<<endl;
+        }
+        in.close();
+    }
+    else cout << "File cannot be read";
+	//Append to a  file
+	ofstream out2("happy.txt");
+	out2.open("happy.txt",ios::app);
+	cout<<"Enter what to append to the file.."<<endl;
+	cin>>text;
+	out<<text;
+	cout<<"Appended...";
+}
+int main( )
+{
+   Component obj;
+}
+
+//functional cohesion:
+#include<iostream>
+#include<stdlib.h>
+#include<time.h>
+using namespace std;
+class Component
+{
+	public:
+		Component();
+};
+	void displayDateTime()
+	{
+			time_t t;
+			time(&t);
+			cout<<ctime(&t);
+	}
+	string promptUserId()
+	{
+		string user;
+		cout<<"Enter your userid:"<<endl;
+		cin>>user;
+		return user;
+	}
+	void validateUserId(string user)
+	{
+		int i,flag;
+		string users[]={"11MSE0347","11MSE0321","11MSE0351","11MSE0047","\0"};
+		for(i=0;users[i]!="\0";i++)
+			{
+				if(users[i]==user)
+				{
+					flag=1;
+					break;
+				}
+			}
+			if(flag==1)
+			{
+				cout<<"You are a valid user."<<endl;
+			}
+			else
+			cout<<"You are not authorized!"<<endl;
+	}
+	void viewClassEnrollmentList()
+	{
+		int i;
+			string studentNames[]={"SAKTHIVEL V","MANIKANDAN V","VIJAYALAKSHMI V","SARAVANAN V","BHUVANESHWARY V","S.Janaki","\0"};
+			int studentAge[]={20,28,23,18,15,78};
+			cout<<"\t\t============="<<endl<<"\t\tStudent List"<<endl<<"\t\t============="<<endl<<"\tName"<<"\t\t\t"<<"Age"<<endl;
+			for(i=0;studentNames[i]!="\0";i++)
+			{
+				cout<<"\t"<<
+				studentNames[i]<<"\t\t"<<studentAge[i]<<endl;
+			}
+	}
+Component::Component()
+{
+	string user;
+	displayDateTime();
+	user=promptUserId();
+	validateUserId(user);
+	viewClassEnrollmentList();
+}
+main()
+{
+	Component obj;
+}
+
+//communicational cohesion:
+#include<iostream>
+#include<string.h>
+#include<limits>
+using namespace std;
+struct Books
+{
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+}book1,book2;
+class Component
+{
+	public:
+		Component();
+};
+Component::Component()
+{
+	char title[30],author[30],subject[20];
+	long int book_id;
+	cout<<"Enter book title to search in..."<<endl;
+	cin>>title;
+	if(strcmp(title,book1.title)==-1 || strcmp(title,book2.title)==-1)
+	{
+		cout<<"Given title is present"<<endl;
+	}
+	else
+	{
+		cout<<"Given title is not present"<<endl;
+	}
+	cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	cout<<"Enter book author to search in..."<<endl;
+	cin>>author;
+	if(strcmp(author,book1.author)==-1 || strcmp(author,book2.author)==-1)
+	{
+		cout<<"Found."<<endl;
+	}
+	else
+	{
+		cout<<"Given author has no books"<<endl;
+	}
+	cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	cout<<"Enter the subject to search in..."<<endl;
+	cin>>subject;
+	if(strcmp(subject,book1.subject)==-1 || strcmp(subject,book2.subject)==-1)
+	{
+		cout<<"Given subject is present"<<endl;
+	}
+	else
+	{
+		cout<<"Given subject is not present"<<endl;
+	}
+}
+int main( )
+{
+   /* book 1 specification */
+   strcpy(book1.title, "C++ Programming");
+   strcpy(book1.author, "Bjarne Stroustrub"); 
+   strcpy(book1.subject, "C Programming Tutorial");
+   book1.book_id = 6495407;
+   /* book 2 specification */
+   strcpy(book2.title, "Telecom Billing");
+   strcpy(book2.author, "John");
+   strcpy(book2.subject, "Telecom Billing Tutorial");
+   book2.book_id = 6495700;
+   Component obj;
+}
+
+//sequential cohesion:
+#include<iostream>
+#include<fstream>
+using namespace std;
+class Component
+{
+	public:
+		Component();
+};
+Component::Component()
+{
+	int a,b,n,i,flag=1;
+	cout<<"Enter two values:"<<endl;
+	cin>>a>>b;
+	n=a+b;
+	for(i=2;i<n;i++)
+	{
+		if(n%i==0)
+		{
+		flag=0;
+		break;
+		}
+	}
+	if(flag==1)
+	cout<<n<<" is a prime number!"<<endl;
+	else
+	cout<<n<<" is not a prime number!"<<endl;
+}
+int main( )
+{
+   Component obj;
+}
+
+
