@@ -1,0 +1,167 @@
+//SCALES:
+//Read the data set.
+//Recognize that the gender is a nominal data. Arrange the data set according to the gender from male to female.
+//Recognize that the age is an ordinal data. Arrange the data set according to the age in ascending order.
+//Recognize that the DOB is an interval data. Arrange the data set according to the months from January to February.
+//Recognize that the grade is a ratio data. Arrange the data set according to the grade from S grade to F grade.
+//Count the no of students. This gives the absolute data.
+//Store all outputs in a file
+
+//source code:
+#include<iostream>
+#include<conio.h>
+#include<fstream>
+#include<stdlib.h>
+using namespace std;
+int main()
+{
+FILE *fp;
+string
+str,temp,names[20],gender[20],scores[20],age[20],DOB[20],grades[20],dates[2
+0],year[20],month[20],day[20];
+int i=0,j=0,k=0;
+string genderArray[]={"Male","Female"};
+string gradeArray[]={"S","A","B","C","D","E","F"};
+char names1[20],gender1[20],scores1[20],age1[20],DOB1[20],grades1[20];
+fp=fopen("input4.c","r");
+while(strcmp(names1,"velusamy")!=0)
+{
+fscanf(fp,"%s%s%s%s%s
+%s",names1,gender1,scores1,age1,DOB1,grades1);
+names[i]=names1;
+gender[i]=gender1;
+scores[i]=scores1;
+age[i]=age1;
+DOB[i]=DOB1;
+grades[i]=grades1;
+i++;
+}
+ofstream out2("Absolute.txt");
+out2<<"Number of students:"<<i<<"\n";
+ofstream out("Nominal.txt");
+out<<"\t\t\t\t=============\n";
+out<<"\t\t\t\tNOMINAL DATA\n";
+out<<"\t\t\t\t=============\n";
+out<<"Name\t\tGender\t\tScore\t\tAge\t\tDOB\t\tGrade\n";
+out<<"\n";
+for(j=0;genderArray[j]!="\0";j++)
+{
+for(i=0;gender[i]!="\0";i++)
+{
+if(gender[i].find(genderArray[j])<gender[i].length())
+{
+out<<names[i]<<"\t\t";
+out<<gender[i]<<"\t\t";
+out<<scores[i]<<"\t\t";
+out<<age[i]<<"\t\t";
+out<<DOB[i]<<"\t";
+out<<grades[i]<<"\n";
+}
+}
+}
+ofstream out1("Ratio.txt");
+out1<<"\t\t\t\t=============\n";
+out1<<"\t\t\t\tRATIO DATA\n";
+out1<<"\t\t\t\t=============\n";
+out1<<"Name\t\tGender\t\tScore\t\tAge\t\tDOB\t\tGrade\n";
+out1<<"\n";
+for(j=0;gradeArray[j]!="\0";j++)
+{
+for(i=0;grades[i]!="\0";i++)
+{
+if(grades[i]==gradeArray[j])
+{
+out1<<names[i]<<"\t\t";
+out1<<gender[i]<<"\t\t";
+out1<<scores[i]<<"\t\t";
+out1<<age[i]<<"\t\t";
+out1<<DOB[i]<<"\t";
+out1<<grades[i]<<"\n";
+}
+}
+}
+ofstream out3("Ordinal.txt");
+out3<<"\t\t\t\t=============\n";
+out3<<"\t\t\t\tORDINAL DATA\n";
+out3<<"\t\t\t\t=============\n";
+out3<<"Name\t\tGender\t\tScore\t\tAge\t\tDOB\t\tGrade\n";
+out3<<"\n";
+string unique[10];
+for(i=0;age[i]!="\0";i++) //For removing duplicate elements
+{
+for(j=0;j<k;j++)
+{
+if(age[i]==unique[j])
+break;
+}
+if(j==k)
+{
+unique[k]=age[i];
+k++;
+}
+}
+for(i=0;unique[i]!="\0";i++)
+{
+for(j=0; unique[j]!="\0";j++)
+{
+if(unique[j]>unique[i])
+{
+temp=unique[j];
+unique[j]=unique[i];
+unique[i]=temp;
+}
+}
+}
+for(i=0;unique[i]!="\0";i++)
+{
+for(j=0;age[j]!="\0";j++)
+{
+if(age[j]==unique[i])
+{
+out3<<names[j]<<"\t\t";
+out3<<gender[j]<<"\t\t";
+out3<<scores[j]<<"\t\t";
+out3<<age[j]<<"\t\t";
+out3<<DOB[j]<<"\t";
+out3<<grades[j]<<"\n";
+}
+}
+}
+ofstream out4("Interval.txt");
+out4<<"\t\t\t\t=============\n";
+out4<<"\t\t\t\tINTERVAL DATA\n";
+out4<<"\t\t\t\t=============\n";
+out4<<"Name\t\tGender\t\tScore\t\tAge\t\tDOB\t\tGrade\n";
+out4<<"\n";
+for(i=0;DOB[i]!="\0";i++)
+{
+month[i]=DOB[i].substr(3,DOB[i].find("-"));
+}
+for(i=0;DOB[i]!="\0";i++)
+{
+for(j=0;DOB[j]!="\0";j++)
+{
+if(month[i]<month[j])
+{
+temp = month[i];
+month[i]=month[j];
+month[j]=temp;
+temp = DOB[i];
+DOB[i] = DOB[j];
+DOB[j] = temp;
+}
+}
+}
+for(i=0;DOB[i]!="\0";i++)
+{
+out4<<names[i]<<"\t\t";
+out4<<gender[i]<<"\t\t";
+out4<<scores[i]<<"\t\t";
+out4<<age[i]<<"\t\t";
+out4<<DOB[i]<<"\t";
+out4<<grades[i]<<"\n";
+}
+}
+
+
+//input:
