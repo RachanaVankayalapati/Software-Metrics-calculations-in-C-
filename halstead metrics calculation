@@ -1,0 +1,383 @@
+//halstead metrics calculations in C++:
+//source code:
+#include<iostream>
+#include<fstream>
+#include<stdlib.h>
+#include<math.h>
+#include<conio.h>
+using namespace std;
+int main()
+{
+FILE *fp;
+int
+n1=0,n2=0,N1=0,N2=0,i=0,j=0,k=0,pos,l=0,contd,r,oplength,op2length,disOpLength;
+double N=0,V=0,L=0,D=0,E=0,T=0,I=0;
+char distinctOperators[30],ch,c,operands1[150],charArray[100];
+string
+distinctOperators2[30],str,str2[100],st[10],delimiter,token,functions[10],sample[10];
+char operators[]={'+','-','(',')','{','}','[',']','<','>','=','*','|','!','&',';',','};
+string operators2[]={"++","--
+","<<",">>","&&","()"
+oplength=(sizeof(operators)/sizeof(*operators));
+op2length=(sizeof(operators2)/sizeof(*operators2));
+disOpLength=(sizeof(distinctOperators)/sizeof(*distinctOperators));
+for(i=0;i<oplength;i++)
+{
+fp=fopen("gcd.c","r");
+ch=fgetc(fp);
+while(!feof(fp))
+{
+if(operators[i]=='+')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+if(c!='+')
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]=='-')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+if(c!='-')
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]=='[')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos+1,SEEK_SET);
+c=fgetc(fp);
+if(c==']')
+{
+distinctOperators2[j++]="[]";
+N1++;
+}
+}
+}
+else if(operators[i]=='<' || operators[i]=='>')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+if(c!='<' || c!='>')
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]=='=')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+fseek(fp,pos-2,SEEK_SET);
+char c1=fgetc(fp);
+fseek(fp,pos,SEEK_SET);
+if(c!='=' && c1!='!' )
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]=='|')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+if(c!='|')
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]=='&')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+if(c!='&')
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]=='!')
+{
+if(operators[i]==ch)
+{
+pos=ftell(fp);
+fseek(fp,pos,SEEK_SET);
+c=fgetc(fp);
+if(c!='=')
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+}
+else if(operators[i]==']')
+{
+break;
+}
+else {
+if(operators[i]==ch)
+{
+distinctOperators[k++]=ch;
+N1++;
+}
+}
+ch=fgetc(fp);
+}
+fclose(fp);
+}
+for(i=0;i<op2length;i++)
+{
+ifstream in("gcd.c");
+while(in.good())
+{
+getline(in,str);
+if(str.find(operators2[i])<str.length())
+{
+distinctOperators2[j++]=operators2[i];
+N1++;
+}
+}
+in.close();
+}
+string merge[k+j];
+for(i=0;i<k;i++) //For Merging Operators
+ {
+ merge[i]=distinctOperators[i];
+ l++;
+ }
+for(i=0;i<j;i++)
+ {
+ merge[l++]=distinctOperators2[i];
+ }
+ string unique[l+1];
+ for(i=0;i<l;i++) //For removing duplicate elements
+ {
+ for(j=0;j<n1;j++)
+ {
+ if(merge[i]==unique[j])
+ break;
+ }
+ if(j==n1)
+ {
+ unique[n1]=merge[i];
+ n1++;
+ }
+ }
+ j=0;
+ ifstream in1("gcd.c");// count constants and digits
+ while(in1.good())
+ {
+ getline(in1,str);
+ strcpy(charArray, str.c_str());
+ char *p=charArray;
+ while (*p) {
+ if (isdigit(*p)) {
+ operands1[j++]=(strtol(p, &p, 10));
+ N2++;
+ }
+else {
+ p++;
+ }
+}
+ }
+ contd=j;
+ r=j;
+ in1.close();
+ j=0,k=0,pos=0;
+ delimiter="(";
+ ifstream in2("gcd.c"); //count variables
+ while(in2.good())
+ {
+ getline(in2,str);
+ l=str.length();
+ if(str.find("(")<l)
+ {
+ if(str.find(")")<l)
+ {
+ if(str.find(" ")<l)
+ {
+ if(str.find("void")<l || str.find("int")<l || str.find("double")<l ||
+str.find("float")<l || str.find("char")<l)
+ {
+ string s2=str;
+ N2++; //for function
+ while ((pos = s2.find(delimiter)) != std::string::npos) {
+ token = s2.substr(0, pos);
+ st[k++]=token;
+ s2.erase(0, pos + delimiter.length());
+}
+ st[k]=s2;
+st[k+1]="\0";
+ }
+ }
+ }
+ }
+if((str.find("int")<l || str.find("float")<l || str.find("double")<l ||
+str.find("long")<l || str.find("char")<l || str.find("string")<l))
+{
+if(str.find("(")<l || str.find(")")<l)
+continue;
+else
+str2[j++]=str;
+}
+}
+j=0; delimiter=")";
+for(i=0;st[i]!="\0";i++){
+ while ((pos = st[i].find(delimiter)) != std::string::npos) {
+ token = st[i].substr(0, pos);
+ st[j++]=token;
+ st[i].erase(0, pos + delimiter.length());
+}
+}
+i=0;
+for(k=0;st[k]!="\0";k++)
+ {
+ if(st[k].find(",")<st[k].length())
+ {
+ functions[i++]=st[k];
+ }
+ }
+ delimiter=",";j=0; pos=0;
+ for(i=0;functions[i]!="\0";i++)
+ {
+ while ((pos = functions[i].find(delimiter)) != std::string::npos) {
+ token = functions[i].substr(0, pos);
+ sample[j++]=token;
+ functions[i].erase(0, pos + delimiter.length());
+}
+sample[j]=functions[i];
+sample[j+1]="\0";
+}
+ for(k=0;sample[k]!="\0";k++)
+ {
+ for(j=0;sample[k][j]!='\0';j++)
+ {
+ if(sample[k][j]==' ')
+ {
+ if(sample[k][j+1]!='i' && sample[k][j+1]!='d')
+ {
+ if(sample[k][j+1]=='*')
+ {
+ operands1[contd++]=sample[k][j+2];
+ }
+ else
+ operands1[contd++]=sample[k][j+1];
+ }
+ }
+ }
+ }
+ operands1[contd]='\0';i=0;//function extraction over
+ for(k=0;str2[k]!="\0";k++)
+ {
+ for(j=0;
+ if(str2[k][j]==' ')
+ {
+ while(str2[k][j+1]!=',')
+ {
+ operands1[contd++]=str2[k][j+1];
+ j++;
+ }
+ }
+ else if(str2[k][j]==',')
+{
+operands1[contd++]=str2[k][j+1];
+}
+ }
+ }
+ operands1[contd]='\0';
+ char unique2[contd];
+ for(i=0;i<contd;i++) //For removing duplicate elements
+ {
+
+ for(j=0;j<n2;j++)
+ {
+ if(operands1[i]==unique2[j])
+ break;
+ }
+ if(j==n2)
+ { 
+ unique2[n2]=operands1[i];
+ n2++;
+ }
+ }
+ fp=fopen("gcd.c","r");
+ch=fgetc(fp);
+while(!feof(fp))
+{
+ for(k=r;operands1[k]!='\0';k++)
+ {
+ if(operands1[k]==ch){
+ N2++;
+ }
+ ch=fgetc(fp);
+ }
+ }
+ in2.close();
+ N=N1+N2;
+ V=N*(log(n1+n2)/log(2));
+ L=(2/n1)*(n2/N2);
+ D=(n1/2)*(N1/n2);
+ E=D*V;
+ T=E/18;
+ I=V/D;
+cout<<"No of Distinct Operators:"<<n1<<endl;
+cout<<"Total No of operators:"<<N1<<endl;
+cout<<"No of Distinct Operands:"<<n2<<endl;
+cout<<"Total No of operands:"<<N2<<endl;
+cout<<"Halstead Program Length:"<<N<<endl;
+cout<<"Halstead Program Volume:"<<V<<endl;
+cout<<"Halstead Program Level:"<<L<<endl;
+cout<<"Halstead Program Difficulty:"<<D<<endl;
+cout<<"Halstead Programming Effort:"<<E<<endl;
+cout<<"Halstead Programming Time:"<<T<<" Seconds"<<endl;
+cout<<"Halstead Intelligent Content:"<<I<<endl;
+getch();
+}
+
+//input:
+#include<stdio.h>
+int main()
+{
+int i,a,b,c;
+printf("enter 2 numbers:");
+scanf("%d %d",&a,&b);
+for(i=1;i<a,i<b;i++){
+if(a%i==0 && b%i==0){
+c=i;
+}
+}
+printf("%d",c);
+getch();
+}
