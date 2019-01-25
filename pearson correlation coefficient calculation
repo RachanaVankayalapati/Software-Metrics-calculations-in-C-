@@ -1,0 +1,111 @@
+//pearson rank correlation coefficient:
+
+//source code:
+#include<iostream>
+#include<stdio.h>
+#include<math.h>
+using namespace std;
+int main()
+{
+int n,i,xy,xsq,ysq,tx=0,ty=0,sxy=0,sx=0,sy=0; cout<<"enter no of data:"<<endl;
+cin>>n;
+int a[n],b[n];
+cout<<"Enter the first record:"<<endl;
+for(i=0;i<n;i++)
+{
+cin>>a[i];
+tx=tx+a[i];
+}
+cout<<"Enter the second record:"<<endl;
+for(i=0;i<n;i++)
+{
+cin>>b[i];
+ty=ty+b[i];
+}
+for(i=0;i<n;i++)
+{
+xy=a[i]*b[i];
+sxy=sxy+xy;
+xsq=a[i]*a[i];
+sx=sx+xsq;
+ysq=b[i]*b[i];
+sy=sy+ysq;
+}
+float r=(sxy-(tx*ty)/n)/(sqrt((sx-(tx*tx)/n)*(sy-(ty*ty)/n))); cout<<"sum of x:"<<tx<<endl;
+cout<<"sum of y:"<<ty<<endl;
+cout<<"sum of xy:"<<sxy<<endl;
+cout<<"sum of x^2:"<<sx<<endl;
+cout<<"sum of y^2:"<<sy<<endl;
+cout<<"correlation coefficient:"<<r<<endl;
+if(r>=0.75 && r<1)
+{
+cout<<"Strong  correlation";
+cout<<"direct";
+}
+else if(r>=0.25 && r<0.75)
+{
+cout<<"intermediate  correlation";
+cout<<"direct";
+}
+else if(r>0 && r<0.25)
+{
+cout<<"weak correlation";
+cout<<"direct";
+}
+}
+
+
+//OUTPUT:
+
+#include<iostream>
+#include<stdio.h>
+#include<math.h>
+using namespace std;
+int main()
+{
+int n,i,xy,xsq,ysq,tx=0,ty=0,sxy=0,sx=0,sy=0; cout<<"enter no of data:"<<endl;
+cin>>n;
+int a[n],b[n];
+cout<<"Enter the first record:"<<endl;
+for(i=0;i<n;i++)
+{
+cin>>a[i];
+tx=tx+a[i];
+}
+cout<<"Enter the second record:"<<endl;
+for(i=0;i<n;i++)
+{
+cin>>b[i];
+ty=ty+b[i];
+}
+for(i=0;i<n;i++)
+{
+xy=a[i]*b[i];
+sxy=sxy+xy;
+xsq=a[i]*a[i];
+sx=sx+xsq;
+ysq=b[i]*b[i];
+sy=sy+ysq;
+}
+float r=(sxy-(tx*ty)/n)/(sqrt((sx-(tx*tx)/n)*(sy-(ty*ty)/n))); cout<<"sum of x:"<<tx<<endl;
+cout<<"sum of y:"<<ty<<endl;
+cout<<"sum of xy:"<<sxy<<endl;
+cout<<"sum of x^2:"<<sx<<endl;
+cout<<"sum of y^2:"<<sy<<endl;
+cout<<"correlation coefficient:"<<r<<endl;
+if(r>=0.75 && r<1)
+{
+cout<<"Strong  correlation";
+cout<<"direct";
+}
+else if(r>=0.25 && r<0.75)
+{
+cout<<"intermediate  correlation";
+cout<<"direct";
+}
+else if(r>0 && r<0.25)
+{
+cout<<"weak correlation";
+cout<<"direct";
+}
+}
