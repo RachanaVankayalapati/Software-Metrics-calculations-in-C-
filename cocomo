@@ -1,0 +1,37 @@
+//calculating the effort and and development time for the given project:
+
+//source code:
+#include<iostream>
+#include<math.h>
+using namespace std;
+int main()
+{
+int n,kloc;
+double effort,tdev;
+cout<<"choose the software type\n1.organic\n2.semi detached \n3.embedded";
+cin>>n;
+cout<<"enter KLOC";
+cin>>kloc;
+
+switch(n)
+{
+	case 1: if(n==1)
+	effort=2.4*pow(kloc,1.05);
+	cout<<"effort for organic software is:"<<effort<<"pm"<<endl;
+	tdev=2.5*pow(effort,0.38);
+	cout<<"the development time is:"<<tdev<<"months"<<endl;
+	break;
+	case 2: if(n==2)
+	effort=3.0*pow(kloc,1.12);
+	cout<<"effort for semi detached software is:"<<effort<<"pm"<<endl;
+	tdev=2.5*pow(effort,0.35);
+	cout<<"the development time is:"<<tdev<<"months"<<endl;
+	break;
+	case 3: if(n==3)
+	effort=3.6*pow(kloc,1.2);
+	cout<<"effort for embedded software is:"<<effort<<"pm"<<endl;
+	tdev=2.5*pow(effort,0.32);
+	cout<<"the development time is:"<<tdev<<"months"<<endl;
+	break;
+}
+}
